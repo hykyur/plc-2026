@@ -1,7 +1,7 @@
 import re
 
-regex = r"^(?!.*011)[0-1]*$"
-
+exp = r"^(?!.*?011)[0-1]*$"
+er = re.compile(exp)
 sample = [
     "",
     "0",
@@ -23,7 +23,5 @@ sample = [
 ]
 
 for s in sample:
-    if re.fullmatch(regex, s):
-        print(f"Accepted: {s!r}")
-    else:
-        print(f"Rejected: {s!r}")
+    res = er.match(s)
+    print(res)
