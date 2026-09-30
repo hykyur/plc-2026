@@ -38,17 +38,17 @@ regex = r"^(?!.*011)[0-1]*$"
 | `r"..."`     | *raw string* do Python       | Faz com que o Python não interprete `\` como escape; é boa prática para expressões regulares. |
 | `^`          | âncora de início             | A correspondência tem de começar no início da string. |
 | `(?!...)`    | *negative lookahead*         | Verifica, **sem consumir caracteres**, que o que vem a seguir **não** corresponde ao padrão interior. Se corresponder, a expressão falha. |
-| `.*`         | qualquer sequência           | Dentro do lookahead: zero ou mais caracteres quaisquer, permitindo “saltar” para qualquer posição da string. |
+| `.*?`         | qualquer sequência           | Dentro do lookahead: zero ou mais caracteres quaisquer, permitindo “saltar” para qualquer posição da string com operador não greedy. |
 | `011`        | literal                      | A substring proibida. |
 | `[0-1]*`     | classe de caracteres + fecho de Kleene | Zero ou mais caracteres, cada um `0` ou `1` (equivalente a `[01]*`). |
 | `$`          | âncora de fim                | A correspondência tem de terminar no fim da string. |
 
 ### Como cada parte resolve o problema
 
-**1. Rejeitar strings com `011` — `^(?!.*011)`**
+**1. Rejeitar strings com `011` — `^(?!.*?011)`**
 
 Como o lookahead está logo a seguir a `^`, é avaliado uma única vez, na posição 0.
-O padrão `.*011` tenta encontrar `011` depois de *qualquer* prefixo, ou seja, em
+O padrão `.*?011` tenta encontrar `011` depois de *qualquer* prefixo, ou seja, em
 **qualquer posição** da string. Se o encontrar, o lookahead negativo falha e a
 string inteira é rejeitada. Como o lookahead não consome caracteres, depois de
 passar a verificação a leitura continua novamente a partir do início da string.
@@ -104,5 +104,5 @@ A versão com lookahead é mais direta de ler, pois exprime literalmente
 ## Execução
 
 ```bash
-python re.py
+python tp1_re.py
 ```
